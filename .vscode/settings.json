@@ -1,0 +1,13 @@
+{
+	"terminal.integrated.env.windows": {
+		"PATH": "${workspaceFolder}\\..\\MinGW\\bin;${env:PATH}"
+	},
+	"cmake.sourceDirectory": "D:/專題/I2P1_Final_project-master/I2P1_Final_project-master/allegro_mac/addons/acodec",
+	"files.associations": {
+		"shape.h": "c",
+		"stdbool.h": "c",
+		"allegro_primitives.h": "c",
+		"stdlib.h": "c",
+		"rectangle.h": "c"
+	}
+}
