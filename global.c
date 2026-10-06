@@ -20,5 +20,5 @@ bool key_state[ALLEGRO_KEY_MAX] = {false};
 bool mouse_state[ALLEGRO_MOUSE_MAX_EXTRA_AXES] = {false};
 bool over=false;
 Point mouse;
-bool pause=false;
+bool is_paused=false;
 bool debug_mode = true;

@@ -66,8 +66,12 @@ ALGIF_ANIMATION *algif_load_animation_f(ALLEGRO_FILE *file) {
 
     gif->duration = 0;
     ALLEGRO_STATE s;
-    al_store_state(&s, ALLEGRO_STATE_TARGET_BITMAP | ALLEGRO_STATE_BLENDER);
+    al_store_state(&s, ALLEGRO_STATE_TARGET_BITMAP | ALLEGRO_STATE_BLENDER |
+                       ALLEGRO_STATE_NEW_BITMAP_PARAMETERS);
     al_set_blender(ALLEGRO_ADD, ALLEGRO_ONE, ALLEGRO_ZERO);
+    // Render frames pixel-by-pixel into memory bitmaps: drawing single pixels
+    // on the GPU is slow and draws nothing under WebGL (no gl_PointSize).
+    al_set_new_bitmap_flags(ALLEGRO_MEMORY_BITMAP);
     int n = gif->frames_count;
     int i;
     for (i = 0; i < n; i++) {
@@ -79,6 +83,9 @@ ALGIF_ANIMATION *algif_load_animation_f(ALLEGRO_FILE *file) {
     }
 
     al_restore_state(&s);
+    // Upload the finished frames to video memory for fast drawing.
+    for (i = 0; i < n; i++)
+        al_convert_bitmap(gif->frames[i].rendered);
     return gif;
 }
 

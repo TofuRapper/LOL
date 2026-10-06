@@ -105,18 +105,18 @@ void game_scene_update(Scene *self)
         pause_cooldown -= 1;
     }
 
-    if (!pause) {
+    if (!is_paused) {
         t_clock++;
     }
 
-    if (pause) {
+    if (is_paused) {
         if (key_state[ALLEGRO_KEY_P] && pause_cooldown == 0) {
-            pause = false;
+            is_paused = false;
             pause_cooldown = 20;  // Cooldown period to prevent immediate re-pause
         }
         if (key_state[ALLEGRO_KEY_B]) {
             self->scene_end = true;
-            pause = false;
+            is_paused = false;
             t_clock = 0;
             score = 0;
             health = 1000;
@@ -125,7 +125,7 @@ void game_scene_update(Scene *self)
         }
         if (key_state[ALLEGRO_KEY_R]) {
             self->scene_end = true;
-            pause = false;
+            is_paused = false;
             score = 0;
             t_clock = 0;
             stage = 0;
@@ -147,7 +147,7 @@ void game_scene_update(Scene *self)
     }
 
     if (key_state[ALLEGRO_KEY_P] && pause_cooldown == 0) {
-        pause = true;
+        is_paused = true;
         pause_cooldown = 20;  // Cooldown period to prevent immediate re-unpause
     }
 
@@ -228,7 +228,7 @@ void game_scene_draw(Scene *self)
         al_draw_rectangle(50, 640, 70 + (health / 3), 645, al_map_rgb(255, 0, 0), 10);
         al_draw_text(gs->font, al_map_rgb(255, 255, 255), 45, 635, ALLEGRO_ALIGN_LEFT, healthstr);    
     }
-    if (pause) {
+    if (is_paused) {
         al_draw_rectangle(275, 100, 375, 550, al_map_rgb(255, 255, 255), 100);
         al_draw_rectangle(525, 100, 625, 550, al_map_rgb(255, 255, 255), 100);
         al_draw_text(gs->font, al_map_rgb(255, 255, 255), 10, 10, ALLEGRO_ALIGN_LEFT, "Press P to Resume");
@@ -236,7 +236,7 @@ void game_scene_draw(Scene *self)
         al_draw_text(gs->font, al_map_rgb(255, 255, 255), 10, 50, ALLEGRO_ALIGN_LEFT, "Press B back to menu");
         al_draw_text(gs->font, al_map_rgb(255, 255, 255), 10, 70, ALLEGRO_ALIGN_LEFT, "Press M to Mute/Unmute"); 
     }
-    if (!pause) {
+    if (!is_paused) {
         sprintf(str_score, "%d", score);
         const char *scorestr = str_score;
         al_draw_text(gs->font, al_map_rgb(255, 255, 255), 10, 10, ALLEGRO_ALIGN_LEFT, scorestr);

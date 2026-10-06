@@ -146,7 +146,7 @@ void Character_draw(Elements *self)
     // with the state, draw corresponding image
     Character *chara = ((Character *)(self->pDerivedObj));
     ALLEGRO_BITMAP *frame = algif_get_bitmap(chara->gif_status[chara->state], al_get_time());
-    if (pause){
+    if (is_paused){
         frame=algif_get_bitmap(chara->gif_status[STOP], al_get_time());
         al_draw_bitmap(frame, chara->x, chara->y, ((chara->dir) ? ALLEGRO_FLIP_HORIZONTAL : 0));
     }
@@ -154,7 +154,7 @@ void Character_draw(Elements *self)
     {
         al_draw_bitmap(frame, chara->x, chara->y, ((chara->dir) ? ALLEGRO_FLIP_HORIZONTAL : 0));
     }
-    if (chara->state == ATK && chara->gif_status[chara->state]->display_index == 2 &&!pause)
+    if (chara->state == ATK && chara->gif_status[chara->state]->display_index == 2 &&!is_paused)
     {
         al_play_sample_instance(chara->atk_Sound);
     }
